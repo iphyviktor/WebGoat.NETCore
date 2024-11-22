@@ -10,6 +10,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
+
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
@@ -21,6 +22,12 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
+- task: Checkmarx AST@2
+  inputs:
+    CheckmarxService: 'Cx-Testing'
+    projectName: '$(Build.Repository.Name)'
+    branchName: '$(Build.SourceBranchName)'
+    tenantName: 'SignatureBank'
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
